@@ -8,7 +8,7 @@ packages = [{include = "prime_ptm_torrent"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-globus-cli = "^3.11.0"
+clime-metrics = "^0.9.3"
 
 
 [build-system]
