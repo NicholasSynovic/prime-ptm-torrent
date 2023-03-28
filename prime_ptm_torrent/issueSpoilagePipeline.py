@@ -69,9 +69,9 @@ def main() -> None:
     for pair in pairs:
         print(count)
 
-        issueSpoilageFilePath: PurePath = PurePath(args.out_directory, pair[2])
+        issueSpoilageFilePath: PurePath = PurePath(args.out_directory, pair[1])
         runCommand(
-            issuesFilePath=pair[1],
+            issuesFilePath=pair[0],
             issueSpoilageFilePath=issueSpoilageFilePath,
         )
 
