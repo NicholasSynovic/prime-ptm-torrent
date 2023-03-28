@@ -35,9 +35,11 @@ def main() -> None:
 
     line: str
     for line in open(args.file, "r"):
-        line = line.strip()
-        url: ParseResult = urlparse(url=line)
-        authorRepo: str = url.path.strip("/").replace("/", "_")
+        url: str = line.strip()
+        parsedURL: ParseResult = urlparse(url=line)
+        authorRepo: str = parsedURL.path.strip("/").replace("/", "_")
+
+        runCommand(url, authorRepo, token=args.token)
 
 
 if __name__ == "__main__":
