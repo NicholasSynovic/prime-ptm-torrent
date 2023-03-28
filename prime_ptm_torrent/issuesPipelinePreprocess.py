@@ -1,5 +1,6 @@
 import subprocess
 from argparse import ArgumentParser, Namespace
+from pathlib import PurePath
 from typing import List
 from urllib.parse import ParseResult, urlparse
 
@@ -22,11 +23,16 @@ def getArgs() -> Namespace:
         required=True,
         help="A GitHub personal access token",
     )
+    parser.add_argument(
+        "-d", "--out-directory", required=True, help="Directory to store output data"
+    )
     return parser.parse_args()
 
 
-def runCommand(url: str, jsonFileName: str, token: str) -> None:
-    cmd_str: str = f"clime-gh-issues -r {url} -o {jsonFileName} -t {token} --log {url.replace('/', '_')}_gh_issues_log.log"
+def runCommand(
+    url: str, jsonFilePath: PurePath, logFilePath: PurePath, token: str
+) -> None:
+    cmd_str: str = f"clime-gh-issues -r {url} -o {jsonFilePath.__str__()} -t {token} --log {logFilePath.__str__()}_gh_issues_log.log"
     subprocess.run(cmd_str, shell=True)
 
 
@@ -38,8 +44,12 @@ def main() -> None:
         parsedURL: ParseResult = urlparse(url=line.strip())
         url: str = parsedURL.path.strip("/")
         jsonFileName: str = f'{url.replace("/", "_")}_gh_issues.json'
+        logFileName: str = f'{url.replace("/", "_")}_gh_issues.json'
 
-        runCommand(url, jsonFileName, token=args.token)
+        jsonFilePath: PurePath = PurePath(args.out_directory, jsonFileName)
+        logFilePath: PurePath = PurePath(args.out_directory, logFileName)
+
+        runCommand(url, jsonFilePath, logFilePath, token=args.token)
 
 
 if __name__ == "__main__":
