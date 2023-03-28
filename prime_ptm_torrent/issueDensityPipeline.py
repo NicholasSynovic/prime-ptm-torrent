@@ -2,7 +2,6 @@ import subprocess
 from argparse import ArgumentParser, Namespace
 from os import listdir
 from pathlib import PurePath
-from subprocess import CalledProcessError
 from typing import List, Tuple
 
 
@@ -76,6 +75,7 @@ def runCommand(
     commitsFilePath: PurePath, issuesFilePath: PurePath, issueDensityFilePath: PurePath
 ) -> None:
     cmd_str: str = f"clime-issue-density-compute -c {commitsFilePath.__str__()} -i {issuesFilePath.__str__()} -o {issueDensityFilePath.__str__()}"
+    subprocess.run(cmd_str, shell=True)
 
 
 def main() -> None:
