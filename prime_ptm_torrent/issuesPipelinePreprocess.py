@@ -32,7 +32,7 @@ def getArgs() -> Namespace:
 def runCommand(
     url: str, jsonFilePath: PurePath, logFilePath: PurePath, token: str
 ) -> None:
-    cmd_str: str = f"clime-gh-issues -r {url} -o {jsonFilePath.__str__()} -t {token} --log {logFilePath.__str__()}_gh_issues_log.log"
+    cmd_str: str = f"clime-gh-issues -r {url} -o {jsonFilePath.__str__()} -t {token} --log {logFilePath.__str__()}"
     subprocess.run(cmd_str, shell=True)
 
 
@@ -47,7 +47,7 @@ def main() -> None:
         parsedURL: ParseResult = urlparse(url=line.strip())
         url: str = parsedURL.path.strip("/")
         jsonFileName: str = f'{url.replace("/", "_")}_gh_issues.json'
-        logFileName: str = f'{url.replace("/", "_")}_gh_issues.json'
+        logFileName: str = f'{url.replace("/", "_")}_gh_issues.log'
 
         jsonFilePath: PurePath = PurePath(args.out_directory, jsonFileName)
         logFilePath: PurePath = PurePath(args.out_directory, logFileName)
