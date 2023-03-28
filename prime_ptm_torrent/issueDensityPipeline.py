@@ -43,11 +43,20 @@ def main() -> None:
     commitsDir: PurePath = PurePath(args.commits_directory)
     issuesDir: PurePath = PurePath(args.issues_directory)
 
-    commitsFiles: List[str] = listdir(path=commitsDir)
-    issuesFiles: List[str] = listdir(path=issuesDir)
+    file: str
+    commitsFiles: List[str] = [
+        file.replace("_commits_loc.json", "")
+        for file in listdir(path=commitsDir)
+        if PurePath(file).suffix == ".json"
+    ]
+    issuesFiles: List[str] = [
+        file.replace("_gh_issues.json", "")
+        for file in listdir(path=issuesDir)
+        if PurePath(file).suffix == ".json"
+    ]
 
     print(commitsFiles)
-    print(issuesDir)
+    print(issuesFiles)
 
 
 if __name__ == "__main__":
