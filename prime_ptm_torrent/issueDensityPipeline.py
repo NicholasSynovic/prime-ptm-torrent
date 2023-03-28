@@ -1,5 +1,6 @@
 import subprocess
 from argparse import ArgumentParser, Namespace
+from os import listdir
 from pathlib import PurePath
 from typing import List
 from urllib.parse import ParseResult, urlparse
@@ -7,21 +8,21 @@ from urllib.parse import ParseResult, urlparse
 
 def getArgs() -> Namespace:
     parser: ArgumentParser = ArgumentParser(
-        prog="PRIME PTMTorrent Issues Pipeline",
+        prog="PRIME PTMTorrent Issue Density Pipeline",
         usage="The script to handle collecting issue data from PTMTorrent repositories",
         epilog="Written by Nicholas M. Synovic",
     )
     parser.add_argument(
-        "-f",
-        "--file",
+        "-c",
+        "--commits-directory",
         required=True,
-        help="A file containing GitHub repo remote origin links to get issue data from",
+        help="A directory path containing commits files",
     )
     parser.add_argument(
-        "-t",
-        "--token",
+        "-i",
+        "--issues-directory",
         required=True,
-        help="A GitHub personal access token",
+        help="A directory path containing issues files",
     )
     parser.add_argument(
         "-d", "--out-directory", required=True, help="Directory to store output data"
@@ -39,21 +40,14 @@ def runCommand(
 def main() -> None:
     args: Namespace = getArgs()
 
-    count: int = 0
+    commitsDir: PurePath = PurePath(args.commits_directory)
+    issuesDir: PurePath = PurePath(args.issues_directory)
 
-    line: str
-    for line in open(args.file, "r"):
-        print(count)
-        parsedURL: ParseResult = urlparse(url=line.strip())
-        url: str = parsedURL.path.strip("/")
-        jsonFileName: str = f'{url.replace("/", "_")}_gh_issues.json'
-        logFileName: str = f'{url.replace("/", "_")}_gh_issues.log'
+    commitsFiles: List[str] = listdir(path=commitsDir)
+    issuesFiles: List[str] = listdir(path=issuesDir)
 
-        jsonFilePath: PurePath = PurePath(args.out_directory, jsonFileName)
-        logFilePath: PurePath = PurePath(args.out_directory, logFileName)
-
-        runCommand(url, jsonFilePath, logFilePath, token=args.token)
-        count += 1
+    print(commitsFiles)
+    print(issuesDir)
 
 
 if __name__ == "__main__":
