@@ -77,11 +77,6 @@ def runCommand(
 ) -> None:
     cmd_str: str = f"clime-issue-density-compute -c {commitsFilePath.__str__()} -i {issuesFilePath.__str__()} -o {issueDensityFilePath.__str__()}"
 
-    try:
-        subprocess.run(cmd_str, shell=True)
-    except CalledProcessError:
-        pass
-
 
 def main() -> None:
     args: Namespace = getArgs()
