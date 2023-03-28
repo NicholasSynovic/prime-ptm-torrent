@@ -39,8 +39,11 @@ def runCommand(
 def main() -> None:
     args: Namespace = getArgs()
 
+    count: int = 0
+
     line: str
     for line in open(args.file, "r"):
+        print(count)
         parsedURL: ParseResult = urlparse(url=line.strip())
         url: str = parsedURL.path.strip("/")
         jsonFileName: str = f'{url.replace("/", "_")}_gh_issues.json'
@@ -50,6 +53,7 @@ def main() -> None:
         logFilePath: PurePath = PurePath(args.out_directory, logFileName)
 
         runCommand(url, jsonFilePath, logFilePath, token=args.token)
+        count += 1
 
 
 if __name__ == "__main__":
