@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dataDir="~/data/commits"
+dataDir="/home/nsynovic/data/commits"
 fullPath=$1
 author=${fullPath##*/}	# https://stackoverflow.com/a/1371283
 
